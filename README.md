@@ -24,6 +24,8 @@ Fullstack:
 
 > [Angular 11 + Node.js + Express + MongoDB example](https://bezkoder.com/angular-11-mongodb-node-js-express/)
 
+> [Angular 12 + Node.js + Express + MongoDB example](https://bezkoder.com/angular-12-mongodb-node-js-express/)
+
 > [React + Node.js + Express + MongoDB example](https://bezkoder.com/react-node-express-mongodb-mern-stack/)
 
 Integration (run back-end & front-end on same server/port)
