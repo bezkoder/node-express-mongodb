@@ -12,14 +12,13 @@ exports.create = (req, res) => {
 
   // Create a Words
   const words = new Words({
-    login: req.body.login,
-    email: req.body.email,
-    password: req.body.password,
+    mot: req.body.mot,
+    definition: req.body.definition,
     published: req.body.published ? req.body.published : false
   });
 
   // Save Words in the database
-  Words
+  words
     .save(words)
     .then(data => {
       res.send(data);
@@ -34,7 +33,7 @@ exports.create = (req, res) => {
 
 // Retrieve all words from the database.
 exports.findAll = (req, res) => {
-  const title = req.query.email;
+  const title = req.query.mot;
   var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
 
   Words.find(condition)

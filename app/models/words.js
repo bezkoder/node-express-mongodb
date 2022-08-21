@@ -1,7 +1,7 @@
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
-      mot: {type: String, index: { unique: true}},
+      mot: String,
       definition: String,
       published: Boolean
     },
