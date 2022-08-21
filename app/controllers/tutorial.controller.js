@@ -4,7 +4,7 @@ const Tutorial = db.tutorials;
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.email) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
