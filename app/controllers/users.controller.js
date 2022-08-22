@@ -232,6 +232,7 @@ exports.findAllFav = (req, res) => {
       if (!data)
         res.status(404).send({ message: "Not found User with id " + id });
       else {
+        // console.log(data);
         
         let listfavs = getlistword(data.words);
 
@@ -246,13 +247,13 @@ exports.findAllFav = (req, res) => {
 };
 
 function getlistword(listId){
-  let favs = new Array();
-
+  var favs = [{}]; 
   listId.forEach(wordid => {
     Words.findById(wordid).then((word)=>{
-      favs.push(word.mot)
+      favs.push(word)
     })
   });
+  console.log(favs);
   
   return favs
 }
