@@ -33,8 +33,8 @@ exports.create = (req, res) => {
 
 // Retrieve all words from the database.
 exports.findAll = (req, res) => {
-  const title = req.query.mot;
-  var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+  const theword = req.query.mot;
+  var condition = theword ? { theword: { $regex: new RegExp(theword), $options: "i" } } : {};
 
   Words.find(condition)
     .then(data => {

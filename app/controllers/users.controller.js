@@ -1,5 +1,7 @@
 const db = require("../models");
 const User = db.users;
+const Words = db.words;
+
 
 // Create and Save a new User
 exports.create = (req, res) => {
@@ -101,18 +103,19 @@ exports.markedfav = (req, res) => {
   }
 
   const id = req.params.id;
-  const word= req.param.word; 
+  const word= req.body.word; 
+  console.log(word)
+
   let favwords = new Array();
 
-  const user = new User(); 
-  user = User.findById(id).then(data => {
+  // const user = new User(); 
+  User.findById(id).then(data => {
     favwords = data.words;
     favwords.push(word);
-    req.body.words = favwords;
-  })
-  
+    console.log("tab"+ favwords)
 
-  User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    req.body.words = favwords;
+    User.findByIdAndUpdate(id, {words: favwords}, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -125,6 +128,7 @@ exports.markedfav = (req, res) => {
         message: "Error updating User with id=" + id
       });
     });
+  })  
 };
 
 
@@ -136,19 +140,18 @@ exports.movetofav = (req, res) => {
   }
 
   const id = req.params.id;
-  const word= req.param.word
+  const word= req.body.word
   let favwords = new Array();
 
-  const user = new User(); 
-  user = User.findById(id).then(data => {
+  // const user = new User(); 
+  User.findById(id).then(data => {
     favwords = data.words;
-    const index = favwords.indexOf(word);
-    favwords = favwords.slices(index)
+    let index = favwords.indexOf(word);
+    favwords.splice(index);
     req.body.words = favwords;
-  })
-  
+    console.log("untab"+ favwords)
 
-  User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    User.findByIdAndUpdate(id, {words: favwords}, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -161,6 +164,10 @@ exports.movetofav = (req, res) => {
         message: "Error updating User with id=" + id
       });
     });
+  })
+  
+
+  
 };
 
 // Delete a User with the specified id in the request
@@ -215,3 +222,37 @@ exports.findAllPublished = (req, res) => {
       });
     });
 };
+
+// Find a single User with an id
+exports.findAllFav = (req, res) => {
+  const id = req.params.id;
+
+  User.findById(id)
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found User with id " + id });
+      else {
+        
+        let listfavs = getlistword(data.words);
+
+        res.send(listfavs)
+      };
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving User with id=" + id });
+    });
+};
+
+function getlistword(listId){
+  let favs = new Array();
+
+  listId.forEach(wordid => {
+    Words.findById(wordid).then((word)=>{
+      favs.push(word.mot)
+    })
+  });
+  
+  return favs
+}

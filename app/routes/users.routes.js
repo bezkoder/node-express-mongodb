@@ -24,9 +24,10 @@ module.exports = app => {
   // Create a new Tutorial
   router.delete("/", users.deleteAll);
 
-  router.put("/fav/:id/:word", users.markedfav);
-  router.put("/unfav/:id/:word", users.movetofav);
+  router.put("/fav/:id", users.markedfav);
+  router.put("/unfav/:id", users.movetofav);
 
+  router.get("/favs/:id", users.findAllFav);
 
 
   app.use("/api/v1/users", router);
