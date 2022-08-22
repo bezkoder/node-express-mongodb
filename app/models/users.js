@@ -1,10 +1,12 @@
+const { default: mongoose } = require("mongoose");
+const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
       login: String,
       email: String,
-      words: [String],
+      words: [ObjectId],
       password: String,
       published: Boolean
     },

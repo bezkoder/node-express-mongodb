@@ -92,6 +92,77 @@ exports.update = (req, res) => {
     });
 };
 
+
+exports.markedfav = (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!"
+    });
+  }
+
+  const id = req.params.id;
+  const word= req.param.word; 
+  let favwords = new Array();
+
+  const user = new User(); 
+  user = User.findById(id).then(data => {
+    favwords = data.words;
+    favwords.push(word);
+    req.body.words = favwords;
+  })
+  
+
+  User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update User with id=${id}. Maybe User was not found!`
+        });
+      } else res.send({ message: "User was updated successfully." });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating User with id=" + id
+      });
+    });
+};
+
+
+exports.movetofav = (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Data to update can not be empty!"
+    });
+  }
+
+  const id = req.params.id;
+  const word= req.param.word
+  let favwords = new Array();
+
+  const user = new User(); 
+  user = User.findById(id).then(data => {
+    favwords = data.words;
+    const index = favwords.indexOf(word);
+    favwords = favwords.slices(index)
+    req.body.words = favwords;
+  })
+  
+
+  User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update User with id=${id}. Maybe User was not found!`
+        });
+      } else res.send({ message: "User was updated successfully." });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating User with id=" + id
+      });
+    });
+};
+
 // Delete a User with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;

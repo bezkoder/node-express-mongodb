@@ -18,6 +18,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "google-tts-api": "^2.0.2",
     "mongoose": "^6.4.2"
   }
 }
