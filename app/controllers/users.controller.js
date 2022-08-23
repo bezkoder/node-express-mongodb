@@ -227,41 +227,28 @@ exports.findAllPublished = (req, res) => {
 exports.findAllFav = async (req, res) => {
   const id = req.params.id;
   
-  const favs = [
-    {
-      _id: ("630290520e31c150be3570a8"),
-      mot: 'mon mot',
-      definition: 'tester@habib.com',
-      published: false
-    },
-    {
-      _id: ("6302a3c60e31c150be3570b6"),
-      mot: 'toto',
-      definition: 'fadad',
-      published: false
-    },
-    {
-      _id: ("6302a4040e31c150be3570ba"),
-      mot: 'testerr',
-      definition: 'tester@habib.com',
-      published: false
+  const favs = new Array();
+  // const favs = [
+  //   {
+  //     _id: ("630290520e31c150be3570a8"),
+  //     mot: 'mon mot',
+  //     definition: 'tester@habib.com',
+  //     published: false
+  //   },
+  //   {
+  //     _id: ("6302a3c60e31c150be3570b6"),
+  //     mot: 'toto',
+  //     definition: 'fadad',
+  //     published: false
+  //   },
+  //   {
+  //     _id: ("6302a4040e31c150be3570ba"),
+  //     mot: 'testerr',
+  //     definition: 'tester@habib.com',
+  //     published: false
    
-    },
-    {
-      _id: ("6302a3c60e31c150be3570b6"),
-      mot: 'toto',
-      definition: 'fadad',
-      published: false
-     
-    },
-    {
-      _id: ("630290520e31c150be3570a8"),
-      mot: 'mon mot',
-      definition: 'tester@habib.com',
-      published: false
-     
-    }
-  ];
+  //   }
+  // ];
 
   await User.findById(id)
     .then(data => {
@@ -269,7 +256,7 @@ exports.findAllFav = async (req, res) => {
         let listfavs = data.words;
 
         listfavs.forEach(wordid => {
-          Words.findById(wordid).then((word) => {
+          Words.findById(wordid).then((word,i) => {
          
             favs.push(word);
             console.log(favs);
@@ -286,6 +273,7 @@ exports.findAllFav = async (req, res) => {
         .send({ message: "Error retrieving User with id=" + id });
     });
 };
+
 
 
 // function getlistword(listId){
