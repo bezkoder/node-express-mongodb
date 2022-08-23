@@ -36,8 +36,8 @@ exports.create = (req, res) => {
 
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
-  const title = req.query.email;
-  var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+  const theuser = req.query.email;
+  var condition = theuser ? { theuser: { $regex: new RegExp(theuser), $options: "i" } } : {};
 
   User.find(condition)
     .then(data => {
@@ -224,36 +224,79 @@ exports.findAllPublished = (req, res) => {
 };
 
 // Find a single User with an id
-exports.findAllFav = (req, res) => {
+exports.findAllFav = async (req, res) => {
   const id = req.params.id;
+  
+  const favs = [
+    {
+      _id: ("630290520e31c150be3570a8"),
+      mot: 'mon mot',
+      definition: 'tester@habib.com',
+      published: false
+    },
+    {
+      _id: ("6302a3c60e31c150be3570b6"),
+      mot: 'toto',
+      definition: 'fadad',
+      published: false
+    },
+    {
+      _id: ("6302a4040e31c150be3570ba"),
+      mot: 'testerr',
+      definition: 'tester@habib.com',
+      published: false
+   
+    },
+    {
+      _id: ("6302a3c60e31c150be3570b6"),
+      mot: 'toto',
+      definition: 'fadad',
+      published: false
+     
+    },
+    {
+      _id: ("630290520e31c150be3570a8"),
+      mot: 'mon mot',
+      definition: 'tester@habib.com',
+      published: false
+     
+    }
+  ];
 
-  User.findById(id)
+  await User.findById(id)
     .then(data => {
-      if (!data)
-        res.status(404).send({ message: "Not found User with id " + id });
-      else {
-        // console.log(data);
-        
-        let listfavs = getlistword(data.words);
 
-        res.send(listfavs)
-      };
+        let listfavs = data.words;
+
+        listfavs.forEach(wordid => {
+          Words.findById(wordid).then((word) => {
+         
+            favs.push(word);
+            console.log(favs);
+          });
+        });
+
+        res
+          .send(favs)
     })
     .catch(err => {
+      console.log(err)
       res
         .status(500)
         .send({ message: "Error retrieving User with id=" + id });
     });
 };
 
-function getlistword(listId){
-  var favs = [{}]; 
-  listId.forEach(wordid => {
-    Words.findById(wordid).then((word)=>{
-      favs.push(word)
-    })
-  });
-  console.log(favs);
+
+// function getlistword(listId){
+//   var favs = new array(); 
+
+//   listId.forEach(wordid => {
+//     Words.findById(wordid).then((word)=>{
+//       favs.push(word)
+//     });
+//   });
+//   console.log(favs);
   
-  return favs
-}
+//   return favs
+// }

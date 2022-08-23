@@ -51,7 +51,7 @@ exports.findAll = (req, res) => {
 
 // Find a single Words with an id
 exports.findOne = (req, res) => {
-  const id = req.params.id;
+  const id = ObjectID(req.params.id);
 
   Words.findById(id)
     .then(data => {
