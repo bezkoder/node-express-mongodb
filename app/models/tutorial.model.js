@@ -1,9 +1,14 @@
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
-      title: String,
-      description: String,
-      published: Boolean
+      name: String,
+      desc: String,
+      page : String,
+      tag: String,
+      author: String,
+      bucketid: String,
+      thumb: String,
+      bookid: String
     },
     { timestamps: true }
   );
