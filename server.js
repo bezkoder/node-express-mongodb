@@ -1,3 +1,5 @@
+//import dotenv module, and call config function to be able to use .env
+require('dotenv').config()
 const express = require("express");
 const cors = require("cors");
 
