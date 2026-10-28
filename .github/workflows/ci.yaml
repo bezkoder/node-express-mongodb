@@ -2,10 +2,10 @@ name : Node.Js ci
 
 on:
  push:
- branches: main
+ branches: master
  pull_request:
     branches:
-      - main
+      - master
 
   permissions:
    contents: read
