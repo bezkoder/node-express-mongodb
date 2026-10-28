@@ -1,1 +1,53 @@
+name : Node.Js ci
+
+on:
+ push:
+ branches: main
+ pull_request:
+    branches:
+      - main
+
+  permissions:
+   contents: read
+
+   jobs:
+   ci:
+   name: Node.js ci
+   runs-on: ubuntu-latest
+
+   steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: |
+          if npm run | grep -qE '^[[:space:]]+lint([[:space:]]|$)'; then
+            npm run lint
+          else
+            echo "No lint script configured; skipping lint."
+          fi
+
+      - name: Run tests
+        run: |
+          if npm run | grep -qE '^[[:space:]]+test([[:space:]]|$)'; then
+            npm test
+          else
+            echo "No test script configured; skipping tests."
+          fi
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Node.js CI" >> "$GITHUB_STEP_SUMMARY"
+          echo "Commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "Event: $GITHUB_EVENT_NAME" >> "$GITHUB_STEP_SUMMARY"
 
