@@ -1,28 +1,30 @@
-name : Node.Js ci
+
+name: Node.js CI
 
 on:
- push:
- branches: master
- pull_request:
+  push:
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
-  permissions:
-   contents: read
+permissions:
+  contents: read
 
-   jobs:
-   ci:
-   name: Node.js ci
-   runs-on: ubuntu-latest
+jobs:
+  ci:
+    name: Node.js CI
+    runs-on: ubuntu-latest
 
-   steps:
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -50,4 +52,3 @@ on:
           echo "## Node.js CI" >> "$GITHUB_STEP_SUMMARY"
           echo "Commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
           echo "Event: $GITHUB_EVENT_NAME" >> "$GITHUB_STEP_SUMMARY"
-
