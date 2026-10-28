@@ -21,6 +21,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install Dependency
+        run: npm install
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
