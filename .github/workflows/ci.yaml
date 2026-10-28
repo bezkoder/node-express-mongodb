@@ -42,12 +42,7 @@ jobs:
           fi
 
       - name: Run tests
-        run: |
-          if npm run | grep -qE '^[[:space:]]+test([[:space:]]|$)'; then
-            npm test
-          else
-            echo "No test script configured; skipping tests."
-          fi
+        run: npm test
 
       - name: Job summary
         if: always()
